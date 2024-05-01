@@ -2,19 +2,17 @@ package com.saurabh.ecommerce.product.service;
 
 import com.saurabh.ecommerce.product.dto.FakeStoreResponseDto;
 import com.saurabh.ecommerce.product.dto.ProductUpdateRequest;
+import com.saurabh.ecommerce.product.exeptions.ProductNotFound;
 import com.saurabh.ecommerce.product.models.Category;
 import com.saurabh.ecommerce.product.models.Product;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -24,16 +22,17 @@ public class FakeStoreProductService implements ProductService {
     private RestTemplate restTemplate;
 
 
-    FakeStoreProductService(RestTemplate restTemplate){
+    FakeStoreProductService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
     @Override
-    public Product ProductGetById(long id) {
-        FakeStoreResponseDto fdto = restTemplate.getForObject("https://fakestoreapi.com/products/"+id, FakeStoreResponseDto.class);
+    public Product ProductGetById(long id) throws ProductNotFound {
 
-        if(fdto == null){
-            return null;
+        FakeStoreResponseDto fdto = restTemplate.getForObject("https://fakestoreapi.com/products/" + id, FakeStoreResponseDto.class);
+
+        if (fdto == null) {
+            throw new ProductNotFound();
         }
 
         return DtoConversion(fdto);
@@ -46,24 +45,25 @@ public class FakeStoreProductService implements ProductService {
                 "https://fakestoreapi.com/products/",
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<FakeStoreResponseDto>>() {}
+                new ParameterizedTypeReference<List<FakeStoreResponseDto>>() {
+                }
         );
 
         List<FakeStoreResponseDto> fdto = responseEntity.getBody();
 
 
-        if(fdto == null){
+        if (fdto == null) {
             return null;
         }
 
         List<Product> p = new ArrayList<>();
-        for(FakeStoreResponseDto dto: fdto){
+        for (FakeStoreResponseDto dto : fdto) {
             p.add(DtoConversion(dto));
         }
         return p;
     }
 
-    public Product DtoConversion(FakeStoreResponseDto fdto){
+    public Product DtoConversion(FakeStoreResponseDto fdto) {
         Product p = new Product();
         p.setId(fdto.getId());
         p.setDesc(fdto.getDesc());
@@ -76,7 +76,7 @@ public class FakeStoreProductService implements ProductService {
         return p;
     }
 
-    public ProductUpdateRequest createRequestBody(Product product){
+    public ProductUpdateRequest createRequestBody(Product product) {
         ProductUpdateRequest requestBody = new ProductUpdateRequest();
         requestBody.setTitle(product.getTitle());
         requestBody.setPrice(product.getPrice());
@@ -87,7 +87,7 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public Product updateProduct(Product product,long id) {
+    public Product updateProduct(Product product, long id) {
         // Create RestTemplate instance
         RestTemplate restTemplate = new RestTemplate();
 
@@ -102,14 +102,14 @@ public class FakeStoreProductService implements ProductService {
         HttpEntity<ProductUpdateRequest> requestEntity = new HttpEntity<>(requestBody, headers);
 
         // Specify the URL of the product to update
-        String productUrl = "https://fakestoreapi.com/products/"+id; // Update with the correct product ID
+        String productUrl = "https://fakestoreapi.com/products/" + id; // Update with the correct product ID
 
         // Make the PUT request
         restTemplate.exchange(productUrl, HttpMethod.PUT, requestEntity, String.class);
 
-        FakeStoreResponseDto fdto = restTemplate.getForObject("https://fakestoreapi.com/products/"+id, FakeStoreResponseDto.class);
+        FakeStoreResponseDto fdto = restTemplate.getForObject("https://fakestoreapi.com/products/" + id, FakeStoreResponseDto.class);
 
-        if(fdto == null){
+        if (fdto == null) {
             return null;
         }
 
@@ -118,17 +118,18 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public  Product deleteProduct(long id) {
+    public Product deleteProduct(long id) {
 
         ResponseEntity<FakeStoreResponseDto> responseEntity = restTemplate.exchange(
-                "https://fakestoreapi.com/products/"+id,
+                "https://fakestoreapi.com/products/" + id,
                 HttpMethod.DELETE,
                 null,
-                new ParameterizedTypeReference<FakeStoreResponseDto>() {}
+                new ParameterizedTypeReference<FakeStoreResponseDto>() {
+                }
         );
 
         FakeStoreResponseDto fdto = responseEntity.getBody();
-        if(fdto == null){
+        if (fdto == null) {
             System.err.println("Response body is null.");
             return null;
         }
@@ -154,10 +155,11 @@ public class FakeStoreProductService implements ProductService {
 
         // Make the PUT request
         ResponseEntity<FakeStoreResponseDto> responseEntity = restTemplate.exchange("https://fakestoreapi.com/products/",
-                HttpMethod.POST, requestEntity, new ParameterizedTypeReference<FakeStoreResponseDto>() {});
+                HttpMethod.POST, requestEntity, new ParameterizedTypeReference<FakeStoreResponseDto>() {
+                });
 
         FakeStoreResponseDto fdto = responseEntity.getBody();
-        if(fdto == null){
+        if (fdto == null) {
             System.err.println("Response body is null.");
             return null;
         }

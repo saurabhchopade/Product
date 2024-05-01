@@ -1,6 +1,5 @@
 package com.saurabh.ecommerce.product.dto;
 
-import com.saurabh.ecommerce.product.models.Category;
 import lombok.Data;
 
 

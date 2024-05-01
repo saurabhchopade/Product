@@ -13,34 +13,34 @@ import java.util.List;
 public class ProductController {
 
 
-
     private final ProductService productService;
 
-    public ProductController(ProductService productService){
+    public ProductController(ProductService productService) {
         this.productService = productService;
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable("id") long id){
+    public ResponseEntity<Product> getProductById(@PathVariable("id") long id) throws Exception {
         return ResponseEntity.ok(productService.ProductGetById(id));
     }
 
     @GetMapping("/getAllProducts")
-    public ResponseEntity<List<Product>> getListOfProduct(){
+    public ResponseEntity<List<Product>> getListOfProduct() {
         return ResponseEntity.ok(productService.getAllProduct());
     }
 
     @PostMapping("/")
-    public ResponseEntity<Product> createProduct(@RequestBody Product product){
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         return ResponseEntity.ok(productService.createProduct(product));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@RequestBody Product product,@PathVariable("id") long id){
-        return ResponseEntity.ok(productService.updateProduct(product,id));
+    public ResponseEntity<Product> updateProduct(@RequestBody Product product, @PathVariable("id") long id) {
+        return ResponseEntity.ok(productService.updateProduct(product, id));
     }
 
     @DeleteMapping("/{id}")
-    public  ResponseEntity<Product> deleteProduct(@PathVariable("id") long id){
+    public ResponseEntity<Product> deleteProduct(@PathVariable("id") long id) {
         return ResponseEntity.ok(productService.deleteProduct(id));
     }
 
