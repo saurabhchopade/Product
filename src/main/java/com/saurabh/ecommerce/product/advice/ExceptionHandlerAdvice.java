@@ -13,9 +13,9 @@ public class ExceptionHandlerAdvice {
 
 
     @ExceptionHandler(ProductNotFound.class)
-    public ResponseEntity<ExceptionResponseDto> handleProductNotFoundException() {
+    public ResponseEntity<ExceptionResponseDto> handleProductNotFoundException(ProductNotFound ex) {
         ExceptionResponseDto dto = new ExceptionResponseDto();
-        dto.setMessage("Product Not Found");
+        dto.setMessage(ex.getMessage());
         dto.setStatus(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(dto, HttpStatus.NOT_FOUND);
     }

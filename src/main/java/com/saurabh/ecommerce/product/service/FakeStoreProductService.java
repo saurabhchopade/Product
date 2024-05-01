@@ -21,7 +21,6 @@ public class FakeStoreProductService implements ProductService {
 
     private RestTemplate restTemplate;
 
-
     FakeStoreProductService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
@@ -32,7 +31,7 @@ public class FakeStoreProductService implements ProductService {
         FakeStoreResponseDto fdto = restTemplate.getForObject("https://fakestoreapi.com/products/" + id, FakeStoreResponseDto.class);
 
         if (fdto == null) {
-            throw new ProductNotFound();
+            throw new ProductNotFound("Product not found!");
         }
 
         return DtoConversion(fdto);
@@ -50,7 +49,6 @@ public class FakeStoreProductService implements ProductService {
         );
 
         List<FakeStoreResponseDto> fdto = responseEntity.getBody();
-
 
         if (fdto == null) {
             return null;
@@ -133,10 +131,8 @@ public class FakeStoreProductService implements ProductService {
             System.err.println("Response body is null.");
             return null;
         }
-
         return DtoConversion(fdto);
     }
-
 
     @Override
     public Product createProduct(Product product) {
@@ -151,7 +147,6 @@ public class FakeStoreProductService implements ProductService {
 
         // Create the HttpEntity with headers and body
         HttpEntity<ProductUpdateRequest> requestEntity = new HttpEntity<>(requestBody, headers);
-
 
         // Make the PUT request
         ResponseEntity<FakeStoreResponseDto> responseEntity = restTemplate.exchange("https://fakestoreapi.com/products/",
