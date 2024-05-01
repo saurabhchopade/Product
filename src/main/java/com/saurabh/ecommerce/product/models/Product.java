@@ -13,7 +13,6 @@ public class Product {
     private double price;
     private String desc;
     private String image;
-
     private Category category;
 
 }
