@@ -64,7 +64,7 @@ public class FakeStoreProductService implements ProductService {
     public Product DtoConversion(FakeStoreResponseDto fdto) {
         Product p = new Product();
         p.setId(fdto.getId());
-        p.setDesc(fdto.getDesc());
+        p.setDescription(fdto.getDesc());
         p.setTitle(fdto.getTitle());
         p.setPrice(fdto.getPrice());
         p.setImage(fdto.getImage());
@@ -78,7 +78,7 @@ public class FakeStoreProductService implements ProductService {
         ProductUpdateRequest requestBody = new ProductUpdateRequest();
         requestBody.setTitle(product.getTitle());
         requestBody.setPrice(product.getPrice());
-        requestBody.setCategory(product.getDesc());
+        requestBody.setCategory(product.getDescription());
         requestBody.setImage(product.getImage());
         requestBody.setCategory(product.getCategory().getCategory());
         return requestBody;

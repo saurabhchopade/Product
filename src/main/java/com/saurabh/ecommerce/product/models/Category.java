@@ -1,9 +1,10 @@
 package com.saurabh.ecommerce.product.models;
 
+import jakarta.persistence.Entity;
 import lombok.Data;
 
 @Data
-public class Category {
-    private long id;
+@Entity
+public class Category extends BaseModel {
     private String category;
 }
