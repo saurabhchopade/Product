@@ -1,6 +1,7 @@
 package com.saurabh.ecommerce.product.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
@@ -17,6 +18,7 @@ public class Product extends BaseModel {
     private String description;
     private String image;
     @ManyToOne
+    @JoinColumn
     private Category category;
 
 }

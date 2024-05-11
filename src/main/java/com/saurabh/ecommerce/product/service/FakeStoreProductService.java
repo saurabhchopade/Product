@@ -6,6 +6,7 @@ import com.saurabh.ecommerce.product.exeptions.ProductNotFound;
 import com.saurabh.ecommerce.product.models.Category;
 import com.saurabh.ecommerce.product.models.Product;
 import lombok.Data;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Service
+@Service("FakeStoreProductService")
 @Data
+
 public class FakeStoreProductService implements ProductService {
 
     private RestTemplate restTemplate;

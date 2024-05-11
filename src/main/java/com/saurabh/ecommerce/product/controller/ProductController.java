@@ -3,6 +3,7 @@ package com.saurabh.ecommerce.product.controller;
 
 import com.saurabh.ecommerce.product.models.Product;
 import com.saurabh.ecommerce.product.service.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,10 +16,9 @@ public class ProductController {
 
     private final ProductService productService;
 
-    public ProductController(ProductService productService) {
+    public ProductController(@Qualifier("SelfProductService") ProductService productService) {
         this.productService = productService;
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable("id") long id) throws Exception {
@@ -44,6 +44,5 @@ public class ProductController {
     public ResponseEntity<Product> deleteProduct(@PathVariable("id") long id) {
         return ResponseEntity.ok(productService.deleteProduct(id));
     }
-
 
 }
