@@ -24,7 +24,7 @@ public class ProductController {
     public ResponseEntity<Product> getProductById(@PathVariable("id") long id) throws Exception {
         return ResponseEntity.ok(productService.ProductGetById(id));
     }
-
+    
     @GetMapping("/getAllProducts")
     public ResponseEntity<List<Product>> getListOfProduct() {
         return ResponseEntity.ok(productService.getAllProduct());
@@ -43,6 +43,9 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Product> deleteProduct(@PathVariable("id") long id) {
         return ResponseEntity.ok(productService.deleteProduct(id));
+
     }
+
+
 
 }
