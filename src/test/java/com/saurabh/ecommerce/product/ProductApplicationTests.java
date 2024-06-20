@@ -11,19 +11,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 class ProductApplicationTests {
 
 
-	@Autowired
-public 	ProductRepo p;
+    @Autowired
+    public ProductRepo p;
 
 //	@Autowired
 //	CategoryRepo c;
 
 
-
-	@Test
-	@Transactional
-	void random() {
-		ProductWithTitle sql = p.getProductTitleByIdNative(1L);
-		System.out.printf(sql.getTitle());
-		System.out.println();
-	}
+    @Test
+    @Transactional
+    void random() {
+        ProductWithTitle sql = p.getProductTitleByIdNative(1L);
+        System.out.printf(sql.getTitle());
+        System.out.println();
+    }
 }

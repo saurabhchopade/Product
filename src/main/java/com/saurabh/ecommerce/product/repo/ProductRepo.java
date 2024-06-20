@@ -28,7 +28,6 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
     Product save(Product product);
 
 
-
     @Query("SELECT p.title as title FROM Product p WHERE p.id = :id")
     ProductWithTitle random(@Param("id") Long id);
 

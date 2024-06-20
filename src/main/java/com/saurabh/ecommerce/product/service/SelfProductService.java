@@ -5,7 +5,6 @@ import com.saurabh.ecommerce.product.models.Category;
 import com.saurabh.ecommerce.product.models.Product;
 import com.saurabh.ecommerce.product.repo.CategoryRepo;
 import com.saurabh.ecommerce.product.repo.ProductRepo;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

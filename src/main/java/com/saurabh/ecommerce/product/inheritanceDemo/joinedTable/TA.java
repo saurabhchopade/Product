@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Entity(name = "jt_ta")
 @Data
-public class TA extends User{
+public class TA extends User {
     private int noOfSessions;
     private double rating;
 

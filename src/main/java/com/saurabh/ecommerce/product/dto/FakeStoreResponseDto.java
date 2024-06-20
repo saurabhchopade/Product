@@ -12,5 +12,4 @@ public class FakeStoreResponseDto {
     private String image;
     private String category;
 
-
 }

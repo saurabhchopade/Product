@@ -6,8 +6,9 @@ import com.saurabh.ecommerce.product.exeptions.ProductNotFound;
 import com.saurabh.ecommerce.product.models.Category;
 import com.saurabh.ecommerce.product.models.Product;
 import lombok.Data;
-import org.springframework.context.annotation.Primary;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -23,20 +24,34 @@ public class FakeStoreProductService implements ProductService {
 
     private RestTemplate restTemplate;
 
-    FakeStoreProductService(RestTemplate restTemplate) {
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    FakeStoreProductService(RestTemplate restTemplate, RedisTemplate redisTemplate) {
         this.restTemplate = restTemplate;
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
     public Product ProductGetById(long id) throws ProductNotFound {
 
+
+        Product p = (Product) redisTemplate.opsForHash().get("PRODUCTS1", "PRODUCT_" + id);
+
+        if (p != null) {
+            return p;
+        }
         FakeStoreResponseDto fdto = restTemplate.getForObject("https://fakestoreapi.com/products/" + id, FakeStoreResponseDto.class);
 
         if (fdto == null) {
             throw new ProductNotFound("Product not found!");
         }
 
-        return DtoConversion(fdto);
+        p = DtoConversion(fdto);
+        redisTemplate.opsForHash().put("PRODUCTS1", "PRODUCT_" + id, p);
+
+        return p;
+
     }
 
     @Override
