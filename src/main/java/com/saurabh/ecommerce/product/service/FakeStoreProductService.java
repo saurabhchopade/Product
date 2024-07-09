@@ -1,10 +1,13 @@
 package com.saurabh.ecommerce.product.service;
 
+import brave.Span;
+import brave.Tracer;
 import com.saurabh.ecommerce.product.dto.FakeStoreResponseDto;
 import com.saurabh.ecommerce.product.dto.ProductUpdateRequest;
 import com.saurabh.ecommerce.product.exeptions.ProductNotFound;
 import com.saurabh.ecommerce.product.models.Category;
 import com.saurabh.ecommerce.product.models.Product;
+import io.micrometer.tracing.SpanCustomizer;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -27,15 +30,21 @@ public class FakeStoreProductService implements ProductService {
     @Autowired
     private RedisTemplate redisTemplate;
 
+
+//    @Autowired
+//    private SpanCustomizer spanCustomizer;
+
+
     FakeStoreProductService(RestTemplate restTemplate, RedisTemplate redisTemplate) {
         this.restTemplate = restTemplate;
         this.redisTemplate = redisTemplate;
+//        this.spanCustomizer = spanCustomizer;
     }
 
     @Override
     public Product ProductGetById(long id) throws ProductNotFound {
-
-
+        System.out.println("==========="+id+"=============");
+//        spanCustomizer.tag("peer.service", "external-service-name");
         Product p = (Product) redisTemplate.opsForHash().get("PRODUCTS1", "PRODUCT_" + id);
 
         if (p != null) {

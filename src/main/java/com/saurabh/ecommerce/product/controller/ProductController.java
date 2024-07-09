@@ -44,6 +44,7 @@ public class ProductController {
 
     @GetMapping("/getAllProducts")
     public ResponseEntity<List<Product>> getListOfProduct() {
+        System.out.println("========");
         return ResponseEntity.ok(productService.getAllProduct());
     }
 
