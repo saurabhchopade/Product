@@ -74,7 +74,18 @@ that the `ProductService` is properly implemented to handle business logic relat
 - Spring Web
 - Other dependencies as required by your application
 
-## License
+## DevOps Integration
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- **Add Loki Prometheus and Graphana Inegration and redis exporter  from redis which collect logs:**
+  - Run prometheus: docker run --name prometheus -d -p 9090:9090 -v C:/Users/Wissen/Documents/Projects/product/product/src/main/resources/prometheus.yml:/etc/prometheus/prometheus.yml prom/Prometheus
+  - Run loki:docker run -d --name loki -p 3100:3100 grafana/loki:latest
+  - Run Grafana: docker run -d -p 3000:3000 --name=grafana grafana/grafana
+  - Redis exporter docker run -d --name redis_exporter -p 9121:9121 oliver006/redis_exporter --redis.addr=redis://host.docker.internal:6379
+
+
+
+
+
+
+
 
