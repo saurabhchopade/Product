@@ -4,6 +4,8 @@ package com.saurabh.ecommerce.product.controller;
 import com.saurabh.ecommerce.product.common.AuthCommon;
 import com.saurabh.ecommerce.product.models.Product;
 import com.saurabh.ecommerce.product.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +19,7 @@ public class ProductController {
 
     private final AuthCommon authCommon;
     private final ProductService productService;
-
+    final static Logger logger = LoggerFactory.getLogger(ProductController.class);
     public ProductController(@Qualifier("FakeStoreProductService") ProductService productService, AuthCommon authCommon) {
         this.productService = productService;
         this.authCommon = authCommon;
@@ -25,7 +27,8 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable("id") long id, @RequestHeader("Auth") String auth) throws Exception {
-
+        logger.warn("Just Checking");
+        logger.info("Just Info");
 //        UserDto user = authCommon.validate(auth);
 
 //        if (user != null) {
